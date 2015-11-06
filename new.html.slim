@@ -1,0 +1,11 @@
+- if notice.present?
+  .alert.alert-info.fade.in
+    a.close[href="#" data-dismiss="alert" aria-label="close"]
+      | ×
+    strong
+      = notice
+- - model_class = Post
+.page-header
+  h1
+    =t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize
+= render :partial => 'form'

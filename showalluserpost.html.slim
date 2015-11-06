@@ -1,0 +1,101 @@
+- if notice.present?
+  .alert.alert-info.fade.in
+    a.close[href="#" data-dismiss="alert" aria-label="close"]
+      | ×
+    strong
+      = notice
+- - model_class = Post
+.container-fluid
+  - @posts.each_with_index do |post, index|
+    .panel.panel-primary
+      .panel-heading
+        = post.title
+      .panel-body
+        table.table.table-condensed
+          tr
+            td[align="justify"]
+              = post.body
+          tr
+            td
+              font[color="#858585"]
+                b
+                  i
+                    = post.tags
+          tr
+            th
+              p[align="right"]
+                | Created by 
+                = post.user.name
+          tr
+            td[align="right"]
+              = post.created_at.strftime("Posted on %B %d, %A, %Y at %H:%M")
+              |  | 
+              = post.updated_at.strftime("Updated on %B %d, %A, %Y at %H:%M")
+          tr
+            td[align="left"]
+              | <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo
+              = index+1
+              | ">Actions
+              |  <div id="demo
+              = index+1
+              | " class="collapse" > 
+              = link_to t('.edit', :default => t("helpers.links.edit")),
+              -                       edit_post_path(post), :class => 'btn btn-xs btn-success'
+              = link_to t('.show', :default => t("helpers.links.show")),
+              -                       post_path(post), :class => 'btn btn-xs btn-warning'
+              |  <button type="button" class="btn btn-xs btn-warning main" data-toggle="modal" data-target="#myModal
+              = index+1
+              | ">Show Modal
+              |  <div id="myModal
+              = index+1
+              | " class="modal fade" role="dialog"> 
+              .modal-dialog
+                .modal-content
+                  .modal-header
+                    button.close[type="button" data-dismiss="modal"]
+                      | ×
+                    h4.modal-title
+                      | Post 
+                      = post.id
+                  .modal-body
+                    table.table.table-striped
+                      thead
+                        tr
+                          th
+                            = model_class.human_attribute_name(:title)
+                          th
+                            = model_class.human_attribute_name(:body)
+                          th
+                            = model_class.human_attribute_name(:tags)
+                          th
+                            = model_class.human_attribute_name(:created_at)
+                          th
+                            = model_class.human_attribute_name(:updated_at)
+                          th
+                            = model_class.human_attribute_name(:user_id)
+                      tbody
+                        tr
+                          td
+                            = post.title
+                          td
+                            = post.body
+                          td
+                            = post.tags
+                          td
+                            =l post.created_at
+                          td
+                            =l post.updated_at
+                          td
+                            = post.user.name
+                          td
+
+                  .modal-footer
+                    button.btn.btn-default[type="button" data-dismiss="modal"]
+                      | Close
+      = link_to t('.destroy', :default => t("helpers.links.destroy")),
+      -                       post_path(post),
+      -                       :method => :delete,
+      -                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+      -                       :class => 'btn btn-xs btn-danger'
+.container-fluid
+  = link_to 'Back', url_for(:back), :class => 'btn btn-primary btn-block'
